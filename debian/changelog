@@ -1,0 +1,8 @@
+libjpeg-turbo (1.1.90-1) unstable; urgency=low
+
+  * Git Init
+  * Git: pkgs/l/libjpeg-turbo
+  * Tag: libjpeg-turbo_1.1.90-1
+
+ -- YoungHun Kim <yh8004.kim@samsung.com>  Wed, 06 Dec 2011 13:20:15 +0200
+
