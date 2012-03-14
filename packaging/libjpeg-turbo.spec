@@ -7,6 +7,7 @@ Release:        7.2
 Summary:        A MMX/SSE2 accelerated library for manipulating JPEG image files
 Url:            http://sourceforge.net/projects/libjpeg-turbo
 Source0:        %{name}-%{version}.tar.gz
+BuildRequires:  nasm
 
 %description
 The libjpeg-turbo package contains a library of functions for manipulating
