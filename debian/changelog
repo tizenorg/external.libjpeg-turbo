@@ -1,3 +1,11 @@
+libjpeg-turbo (1.1.90-2) unstable; urgency=low
+
+  * Add build option at packing file
+  * Git: pkgs/l/libjpeg-turbo
+  * Tag: libjpeg-turbo_1.1.90-2
+
+ -- YoungHun Kim <yh8004.kim@samsung.com> Mon, 19 Mar 2012 15:19:45 +0900
+
 libjpeg-turbo (1.1.90-1) unstable; urgency=low
 
   * Git Init
