@@ -7,6 +7,7 @@ Release:        7.2
 Summary:        A MMX/SSE2 accelerated library for manipulating JPEG image files
 Url:            http://sourceforge.net/projects/libjpeg-turbo
 Source0:        %{name}-%{version}.tar.gz
+Source1001: packaging/libjpeg-turbo.manifest 
 
 %description
 The libjpeg-turbo package contains a library of functions for manipulating
@@ -29,6 +30,7 @@ The libjpeg-turbo shared libraries can be used as drop-in replacements for libjp
 %setup -q 
 
 %build
+cp %{SOURCE1001} .
 %ifarch %{arm}
 %reconfigure --disable-static
 %else
@@ -51,6 +53,7 @@ rm -rf $RPM_BUILD_ROOT
 %postun  -p /sbin/ldconfig
 
 %files
+%manifest libjpeg-turbo.manifest
 %defattr(-,root,root)
 %{_libdir}/libturbojpeg.so
 %exclude %{_datadir}/man/man1/*
@@ -64,6 +67,7 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %files devel
+%manifest libjpeg-turbo.manifest
 %defattr(-,root,root)
 %{_includedir}/turbojpeg.h
 %exclude %{_libdir}/libjpeg.so
