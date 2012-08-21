@@ -23,6 +23,7 @@ LDFLAGS += -Wl,--rpath=$(PREFIX)/lib -Wl,--as-needed
 build: build-stamp 
 build-stamp: 
 	dh_testdir
+	./autogen.sh
 	./configure --prefix=/usr --mandir=/usr/share/man \
 	 --enable-static --enable-shared --without-simd
 	$(MAKE)
@@ -51,7 +52,7 @@ binary-arch: build
 	$(MAKE) install DESTDIR=`pwd`/debian/tmp
 	$(MAKE) install -C debian/extra prefix=/usr DESTDIR=`pwd`/debian/tmp
 	# fix jconfig.h 
-	rm debian/tmp/usr/include/jconfig.h
+	#rm debian/tmp/usr/include/jconfig.h
 	sed -e "s/#\(undef\|define\) HAVE_\(LOCALE\|\(STD\(DEF\|LIB\)\)\)_H 1//g" \
 		jconfig.h > debian/tmp/usr/include/jconfig.h
 	# separate out lib package

@@ -49,6 +49,7 @@ SOURCES =
 DIST_SOURCES =
 am__dist_noinst_JAVA_DIST = org/libjpegturbo/turbojpeg/TJ.java \
 	org/libjpegturbo/turbojpeg/TJCompressor.java \
+	org/libjpegturbo/turbojpeg/TJCustomFilter.java \
 	org/libjpegturbo/turbojpeg/TJDecompressor.java \
 	org/libjpegturbo/turbojpeg/TJLoader.java \
 	org/libjpegturbo/turbojpeg/TJScalingFactor.java \
@@ -193,6 +194,7 @@ top_srcdir = @top_srcdir@
 JAVAROOT = .
 JAVASOURCES = org/libjpegturbo/turbojpeg/TJ.java \
 	org/libjpegturbo/turbojpeg/TJCompressor.java \
+	org/libjpegturbo/turbojpeg/TJCustomFilter.java \
 	org/libjpegturbo/turbojpeg/TJDecompressor.java \
 	org/libjpegturbo/turbojpeg/TJLoader.java \
 	org/libjpegturbo/turbojpeg/TJScalingFactor.java \
@@ -209,6 +211,7 @@ JNIHEADERS = org_libjpegturbo_turbojpeg_TJ.h \
 @WITH_JAVA_TRUE@dist_noinst_JAVA = ${JAVASOURCES}
 @WITH_JAVA_TRUE@JAVA_CLASSES = org/libjpegturbo/turbojpeg/TJ.class \
 @WITH_JAVA_TRUE@	org/libjpegturbo/turbojpeg/TJCompressor.class \
+@WITH_JAVA_TRUE@	org/libjpegturbo/turbojpeg/TJCustomFilter.class \
 @WITH_JAVA_TRUE@	org/libjpegturbo/turbojpeg/TJDecompressor.class \
 @WITH_JAVA_TRUE@	org/libjpegturbo/turbojpeg/TJLoader.class \
 @WITH_JAVA_TRUE@	org/libjpegturbo/turbojpeg/TJScalingFactor.class \
@@ -442,15 +445,14 @@ uninstall-am: uninstall-local
 @WITH_JAVA_TRUE@	if [ -d $(DESTDIR)/$(prefix)/classes ]; then rmdir $(DESTDIR)/$(prefix)/classes; fi
 
 @WITH_JAVA_TRUE@headers: all
-@WITH_JAVA_TRUE@	cd ${srcdir}; \
-@WITH_JAVA_TRUE@	javah org.libjpegturbo.turbojpeg.TJ; \
-@WITH_JAVA_TRUE@	javah org.libjpegturbo.turbojpeg.TJCompressor; \
-@WITH_JAVA_TRUE@	javah org.libjpegturbo.turbojpeg.TJDecompressor; \
-@WITH_JAVA_TRUE@	javah org.libjpegturbo.turbojpeg.TJTransformer
+@WITH_JAVA_TRUE@	javah -d ${srcdir} org.libjpegturbo.turbojpeg.TJ; \
+@WITH_JAVA_TRUE@	javah -d ${srcdir} org.libjpegturbo.turbojpeg.TJCompressor; \
+@WITH_JAVA_TRUE@	javah -d ${srcdir} org.libjpegturbo.turbojpeg.TJDecompressor; \
+@WITH_JAVA_TRUE@	javah -d ${srcdir} org.libjpegturbo.turbojpeg.TJTransformer
 
 @WITH_JAVA_TRUE@docs: all
-@WITH_JAVA_TRUE@	cd ${srcdir}; \
-@WITH_JAVA_TRUE@	mkdir -p doc; cd doc; javadoc -classpath .. org.libjpegturbo.turbojpeg
+@WITH_JAVA_TRUE@	mkdir -p ${srcdir}/doc; \
+@WITH_JAVA_TRUE@	javadoc -d ${srcdir}/doc -sourcepath ${srcdir} org.libjpegturbo.turbojpeg
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

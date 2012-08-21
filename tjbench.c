@@ -1,5 +1,5 @@
 /*
- * Copyright (C)2009-2011 D. R. Commander.  All Rights Reserved.
+ * Copyright (C)2009-2012 D. R. Commander.  All Rights Reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -59,6 +59,7 @@ const char *subNameLong[TJ_NUMSAMP]=
 const char *subName[NUMSUBOPT]={"444", "422", "420", "GRAY", "440"};
 tjscalingfactor *scalingfactors=NULL, sf={1, 1};  int nsf=0;
 int xformop=TJXOP_NONE, xformopt=0;
+int (*customFilter)(short *, tjregion, tjregion, int, int, tjtransform *);
 double benchtime=5.0;
 
 
@@ -73,6 +74,16 @@ char *sigfig(double val, int figs, char *buf, int len)
 }
 
 
+/* Custom DCT filter which produces a negative of the image */
+int dummyDCTFilter(short *coeffs, tjregion arrayRegion, tjregion planeRegion,
+	int componentIndex, int transformIndex, tjtransform *transform)
+{
+	int i;
+	for(i=0; i<arrayRegion.w*arrayRegion.h; i++) coeffs[i]=-coeffs[i];
+	return 0;
+}
+
+
 /* Decompression test */
 int decomptest(unsigned char *srcbuf, unsigned char **jpegbuf,
 	unsigned long *jpegsize, unsigned char *dstbuf, int w, int h,
@@ -83,7 +94,7 @@ int decomptest(unsigned char *srcbuf, unsigned char **jpegbuf,
 	int row, col, i, dstbufalloc=0, retval=0;
 	double start, elapsed;
 	int ps=tjPixelSize[pf];
-	int yuvsize=TJBUFSIZEYUV(w, h, subsamp), bufsize;
+	int yuvsize=tjBufSizeYUV(w, h, subsamp), bufsize;
 	int scaledw=(yuv==YUVDECODE)? w : TJSCALED(w, sf);
 	int scaledh=(yuv==YUVDECODE)? h : TJSCALED(h, sf);
 	int pitch=scaledw*ps;
@@ -99,7 +110,7 @@ int decomptest(unsigned char *srcbuf, unsigned char **jpegbuf,
 	if((handle=tjInitDecompress())==NULL)
 		_throwtj("executing tjInitDecompress()");
 
-	bufsize=(yuv==YUVDECODE? yuvsize:pitch*h);
+	bufsize=(yuv==YUVDECODE? yuvsize:pitch*scaledh);
 	if(dstbuf==NULL)
 	{
 		if((dstbuf=(unsigned char *)malloc(bufsize)) == NULL)
@@ -237,7 +248,7 @@ void dotestyuv(unsigned char *srcbuf, int w, int h, int subsamp,
 	int i, retval=0, ps=tjPixelSize[pf];
 	int yuvsize=0;
 
-	yuvsize=TJBUFSIZEYUV(w, h, subsamp);
+	yuvsize=tjBufSizeYUV(w, h, subsamp);
 	if((dstbuf=(unsigned char *)malloc(yuvsize)) == NULL)
 		_throwunix("allocating image buffer");
 
@@ -341,7 +352,8 @@ void dotest(unsigned char *srcbuf, int w, int h, int subsamp, int jpegqual,
 		if((flags&TJFLAG_NOREALLOC)!=0)
 			for(i=0; i<ntilesw*ntilesh; i++)
 			{
-				if((jpegbuf[i]=(unsigned char *)malloc(TJBUFSIZE(tilew, tileh)))==NULL)
+				if((jpegbuf[i]=(unsigned char *)malloc(tjBufSize(tilew, tileh,
+					subsamp)))==NULL)
 					_throwunix("allocating JPEG tiles");
 			}
 
@@ -457,7 +469,7 @@ void dodecomptest(char *filename)
 	int w=0, h=0, subsamp=-1, _w, _h, _tilew, _tileh,
 		_ntilesw, _ntilesh, _subsamp;
 	char *temp=NULL, tempstr[80], tempstr2[80];
-	int row, col, i, tilew, tileh, ntilesw, ntilesh, retval=0;
+	int row, col, i, tilew, tileh, ntilesw=1, ntilesh=1, retval=0;
 	double start, elapsed;
 	int ps=tjPixelSize[pf], tile;
 
@@ -511,7 +523,8 @@ void dodecomptest(char *filename)
 		if((flags&TJFLAG_NOREALLOC)!=0)
 			for(i=0; i<ntilesw*ntilesh; i++)
 			{
-				if((jpegbuf[i]=(unsigned char *)malloc(TJBUFSIZE(tilew, tileh)))==NULL)
+				if((jpegbuf[i]=(unsigned char *)malloc(tjBufSize(tilew, tileh,
+					subsamp)))==NULL)
 					_throwunix("allocating JPEG tiles");
 			}
 
@@ -532,7 +545,7 @@ void dodecomptest(char *filename)
 		}
 
 		_subsamp=subsamp;
-		if(dotile || xformop!=TJXOP_NONE || xformopt!=0)
+		if(dotile || xformop!=TJXOP_NONE || xformopt!=0 || customFilter)
 		{
 			if((t=(tjtransform *)malloc(sizeof(tjtransform)*ntilesw*ntilesh))
 				==NULL)
@@ -566,6 +579,11 @@ void dodecomptest(char *filename)
 					t[tile].r.y=row*_tileh;
 					t[tile].op=xformop;
 					t[tile].options=xformopt|TJXOPT_TRIM;
+					t[tile].customFilter=customFilter;
+					if(t[tile].options&TJXOPT_NOOUTPUT && jpegbuf[tile])
+					{
+						free(jpegbuf[tile]);  jpegbuf[tile]=NULL;
+					}
 				}
 			}
 
@@ -609,9 +627,13 @@ void dodecomptest(char *filename)
 
 		if(w==tilew) _tilew=_w;
 		if(h==tileh) _tileh=_h;
-		if(decomptest(NULL, jpegbuf, jpegsize, NULL, _w, _h, _subsamp, 0,
-			filename, _tilew, _tileh)==-1)
-			goto bailout;
+		if(!(xformopt&TJXOPT_NOOUTPUT))
+		{
+			if(decomptest(NULL, jpegbuf, jpegsize, NULL, _w, _h, _subsamp, 0,
+				filename, _tilew, _tileh)==-1)
+				goto bailout;
+		}
+		else if(quiet==1) printf("N/A\n");
 
 		for(i=0; i<ntilesw*ntilesh; i++)
 		{
@@ -807,6 +829,8 @@ int main(int argc, char *argv[])
 			if(!strcasecmp(argv[i], "-rot180")) xformop=TJXOP_ROT180;
 			if(!strcasecmp(argv[i], "-rot270")) xformop=TJXOP_ROT270;
 			if(!strcasecmp(argv[i], "-grayscale")) xformopt|=TJXOPT_GRAY;
+			if(!strcasecmp(argv[i], "-custom")) customFilter=dummyDCTFilter;
+			if(!strcasecmp(argv[i], "-nooutput")) xformopt|=TJXOPT_NOOUTPUT;
 			if(!strcasecmp(argv[i], "-benchtime") && i<argc-1)
 			{
 				double temp=atof(argv[++i]);

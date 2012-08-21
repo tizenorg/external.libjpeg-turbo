@@ -131,7 +131,7 @@ public class TJCompressor {
    * Compress the uncompressed source image associated with this compressor
    * instance and output a JPEG image to the given destination buffer.
    *
-   * @param dstBuf buffer which will receive the JPEG image.  Use
+   * @param dstBuf buffer that will receive the JPEG image.  Use
    * {@link TJ#bufSize} to determine the maximum size for this buffer based on
    * the image width and height.
    *
@@ -160,7 +160,7 @@ public class TJCompressor {
   public byte[] compress(int flags) throws Exception {
     if(srcWidth < 1 || srcHeight < 1)
       throw new Exception(NO_ASSOC_ERROR);
-    byte[] buf = new byte[TJ.bufSize(srcWidth, srcHeight)];
+    byte[] buf = new byte[TJ.bufSize(srcWidth, srcHeight, subsamp)];
     compress(buf, flags);
     return buf;
   }
@@ -172,7 +172,7 @@ public class TJCompressor {
    * @param srcImage a <code>BufferedImage</code> instance containing RGB or
    * grayscale pixels to be compressed
    *
-   * @param dstBuf buffer which will receive the JPEG image.  Use
+   * @param dstBuf buffer that will receive the JPEG image.  Use
    * {@link TJ#bufSize} to determine the maximum size for this buffer based on
    * the image width and height.
    *
@@ -190,6 +190,9 @@ public class TJCompressor {
     switch(srcImage.getType()) {
       case BufferedImage.TYPE_3BYTE_BGR:
         pixelFormat = TJ.PF_BGR;  break;
+      case BufferedImage.TYPE_4BYTE_ABGR:
+      case BufferedImage.TYPE_4BYTE_ABGR_PRE:
+        pixelFormat = TJ.PF_XBGR;  break;
       case BufferedImage.TYPE_BYTE_GRAY:
         pixelFormat = TJ.PF_GRAY;  break;
       case BufferedImage.TYPE_INT_BGR:
@@ -199,6 +202,8 @@ public class TJCompressor {
           pixelFormat = TJ.PF_RGBX;
         intPixels = true;  break;
       case BufferedImage.TYPE_INT_RGB:
+      case BufferedImage.TYPE_INT_ARGB:
+      case BufferedImage.TYPE_INT_ARGB_PRE:
         if(byteOrder == ByteOrder.BIG_ENDIAN)
           pixelFormat = TJ.PF_XRGB;
         else
@@ -249,7 +254,7 @@ public class TJCompressor {
   public byte[] compress(BufferedImage srcImage, int flags) throws Exception {
     int width = srcImage.getWidth();
     int height = srcImage.getHeight();
-    byte[] buf = new byte[TJ.bufSize(width, height)];
+    byte[] buf = new byte[TJ.bufSize(width, height, subsamp)];
     compress(srcImage, buf, flags);
     return buf;
   }
@@ -269,7 +274,7 @@ public class TJCompressor {
    * {@link TJ#SAMP_420}, which produces an image compatible with the I420 (AKA
    * "YUV420P") format.
    *
-   * @param dstBuf buffer which will receive the YUV planar image.  Use
+   * @param dstBuf buffer that will receive the YUV planar image.  Use
    * {@link TJ#bufSizeYUV} to determine the appropriate size for this buffer
    * based on the image width, height, and level of chrominance subsampling.
    *
@@ -311,7 +316,7 @@ public class TJCompressor {
    * @param srcImage a <code>BufferedImage</code> instance containing RGB or
    * grayscale pixels to be encoded
    *
-   * @param dstBuf buffer which will receive the YUV planar image.  Use
+   * @param dstBuf buffer that will receive the YUV planar image.  Use
    * {@link TJ#bufSizeYUV} to determine the appropriate size for this buffer
    * based on the image width, height, and level of chrominance subsampling.
    *
@@ -329,6 +334,9 @@ public class TJCompressor {
     switch(srcImage.getType()) {
       case BufferedImage.TYPE_3BYTE_BGR:
         pixelFormat = TJ.PF_BGR;  break;
+      case BufferedImage.TYPE_4BYTE_ABGR:
+      case BufferedImage.TYPE_4BYTE_ABGR_PRE:
+        pixelFormat = TJ.PF_XBGR;  break;
       case BufferedImage.TYPE_BYTE_GRAY:
         pixelFormat = TJ.PF_GRAY;  break;
       case BufferedImage.TYPE_INT_BGR:
@@ -338,6 +346,8 @@ public class TJCompressor {
           pixelFormat = TJ.PF_RGBX;
         intPixels = true;  break;
       case BufferedImage.TYPE_INT_RGB:
+      case BufferedImage.TYPE_INT_ARGB:
+      case BufferedImage.TYPE_INT_ARGB_PRE:
         if(byteOrder == ByteOrder.BIG_ENDIAN)
           pixelFormat = TJ.PF_XRGB;
         else

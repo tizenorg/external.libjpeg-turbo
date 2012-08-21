@@ -20,7 +20,7 @@ extern "C" {
 #undef org_libjpegturbo_turbojpeg_TJ_SAMP_440
 #define org_libjpegturbo_turbojpeg_TJ_SAMP_440 4L
 #undef org_libjpegturbo_turbojpeg_TJ_NUMPF
-#define org_libjpegturbo_turbojpeg_TJ_NUMPF 7L
+#define org_libjpegturbo_turbojpeg_TJ_NUMPF 11L
 #undef org_libjpegturbo_turbojpeg_TJ_PF_RGB
 #define org_libjpegturbo_turbojpeg_TJ_PF_RGB 0L
 #undef org_libjpegturbo_turbojpeg_TJ_PF_BGR
@@ -35,6 +35,14 @@ extern "C" {
 #define org_libjpegturbo_turbojpeg_TJ_PF_XRGB 5L
 #undef org_libjpegturbo_turbojpeg_TJ_PF_GRAY
 #define org_libjpegturbo_turbojpeg_TJ_PF_GRAY 6L
+#undef org_libjpegturbo_turbojpeg_TJ_PF_RGBA
+#define org_libjpegturbo_turbojpeg_TJ_PF_RGBA 7L
+#undef org_libjpegturbo_turbojpeg_TJ_PF_BGRA
+#define org_libjpegturbo_turbojpeg_TJ_PF_BGRA 8L
+#undef org_libjpegturbo_turbojpeg_TJ_PF_ABGR
+#define org_libjpegturbo_turbojpeg_TJ_PF_ABGR 9L
+#undef org_libjpegturbo_turbojpeg_TJ_PF_ARGB
+#define org_libjpegturbo_turbojpeg_TJ_PF_ARGB 10L
 #undef org_libjpegturbo_turbojpeg_TJ_FLAG_BOTTOMUP
 #define org_libjpegturbo_turbojpeg_TJ_FLAG_BOTTOMUP 2L
 #undef org_libjpegturbo_turbojpeg_TJ_FLAG_FORCEMMX
@@ -50,10 +58,10 @@ extern "C" {
 /*
  * Class:     org_libjpegturbo_turbojpeg_TJ
  * Method:    bufSize
- * Signature: (II)I
+ * Signature: (III)I
  */
 JNIEXPORT jint JNICALL Java_org_libjpegturbo_turbojpeg_TJ_bufSize
-  (JNIEnv *, jclass, jint, jint);
+  (JNIEnv *, jclass, jint, jint, jint);
 
 /*
  * Class:     org_libjpegturbo_turbojpeg_TJ
@@ -66,7 +74,7 @@ JNIEXPORT jint JNICALL Java_org_libjpegturbo_turbojpeg_TJ_bufSizeYUV
 /*
  * Class:     org_libjpegturbo_turbojpeg_TJ
  * Method:    getScalingFactors
- * Signature: ()[Lorg/libjpegturbo/turbojpeg/TJ/ScalingFactor;
+ * Signature: ()[Lorg/libjpegturbo/turbojpeg/TJScalingFactor;
  */
 JNIEXPORT jobjectArray JNICALL Java_org_libjpegturbo_turbojpeg_TJ_getScalingFactors
   (JNIEnv *, jclass);

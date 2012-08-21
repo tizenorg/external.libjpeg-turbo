@@ -1,16 +1,31 @@
+libjpeg-turbo (1.2.0-2) unstable; urgency=low
+
+  * Tag [Version] 1.2.0-2
+  * Git: slp/pkgs/l/libjpeg-turbo
+  * Tag: libjpeg-turbo_1.2.0-2
+
+ -- YoungHun Kim <yh8004.kim@samsung.com>  Fri, 20 Jul 2012 19:31:01 +0900
+
+libjpeg-turbo (1.2.0-1) unstable; urgency=low
+
+  * Upgrade Version
+  * Git: slp/pkgs/l/libjpeg-turbo
+  * Tag: libjpeg-turbo_1.2.0-1
+
+ -- YoungHun Kim <yh8004.kim@samsung.com> Fri, 20 Jul 2012 17:50:05 +0900
+
 libjpeg-turbo (1.1.90-2) unstable; urgency=low
 
   * Add build option at packing file
-  * Git: pkgs/l/libjpeg-turbo
+  * Git: slp/pkgs/l/libjpeg-turbo
   * Tag: libjpeg-turbo_1.1.90-2
 
  -- YoungHun Kim <yh8004.kim@samsung.com> Mon, 19 Mar 2012 15:19:45 +0900
 
 libjpeg-turbo (1.1.90-1) unstable; urgency=low
 
-  * Git Init
-  * Git: pkgs/l/libjpeg-turbo
+  * Implement package build file
+  * Git: slp/pkgs/l/libjpeg-turbo
   * Tag: libjpeg-turbo_1.1.90-1
 
- -- YoungHun Kim <yh8004.kim@samsung.com>  Wed, 06 Dec 2011 13:20:15 +0200
-
+ -- YoungHun Kim <yh8004.kim@samsung.com> Tue, 14 Jun 2011 16:48:14 +0900

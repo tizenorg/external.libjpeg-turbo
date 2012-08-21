@@ -234,7 +234,7 @@ public class TJDecompressor {
    * Decompress the JPEG source image associated with this decompressor
    * instance and output a decompressed image to the given destination buffer.
    *
-   * @param dstBuf buffer which will receive the decompressed image.  This
+   * @param dstBuf buffer that will receive the decompressed image.  This
    * buffer should normally be <code>pitch * scaledHeight</code> bytes in size,
    * where <code>scaledHeight</code> can be determined by calling <code>
    * scalingFactor.{@link TJScalingFactor#getScaled getScaled}(jpegHeight)
@@ -327,7 +327,7 @@ public class TJDecompressor {
    * size (see {@link TJ#getMCUWidth} and {@link TJ#getMCUHeight}), then an
    * intermediate buffer copy will be performed within TurboJPEG.
    *
-   * @param dstBuf buffer which will receive the YUV planar image.  Use
+   * @param dstBuf buffer that will receive the YUV planar image.  Use
    * {@link TJ#bufSizeYUV} to determine the appropriate size for this buffer
    * based on the image width, height, and level of chrominance subsampling.
    *
@@ -367,7 +367,7 @@ public class TJDecompressor {
    * instance and output a decompressed image to the given
    * <code>BufferedImage</code> instance.
    *
-   * @param dstImage a <code>BufferedImage</code> instance which will receive
+   * @param dstImage a <code>BufferedImage</code> instance that will receive
    * the decompressed image
    *
    * @param flags the bitwise OR of one or more of {@link TJ TJ.FLAG_*}
@@ -387,6 +387,9 @@ public class TJDecompressor {
     switch(dstImage.getType()) {
       case BufferedImage.TYPE_3BYTE_BGR:
         pixelFormat = TJ.PF_BGR;  break;
+      case BufferedImage.TYPE_4BYTE_ABGR:
+      case BufferedImage.TYPE_4BYTE_ABGR_PRE:
+        pixelFormat = TJ.PF_XBGR;  break;
       case BufferedImage.TYPE_BYTE_GRAY:
         pixelFormat = TJ.PF_GRAY;  break;
       case BufferedImage.TYPE_INT_BGR:
@@ -400,6 +403,13 @@ public class TJDecompressor {
           pixelFormat = TJ.PF_XRGB;
         else
           pixelFormat = TJ.PF_BGRX;
+        intPixels = true;  break;
+      case BufferedImage.TYPE_INT_ARGB:
+      case BufferedImage.TYPE_INT_ARGB_PRE:
+        if(byteOrder == ByteOrder.BIG_ENDIAN)
+          pixelFormat = TJ.PF_ARGB;
+        else
+          pixelFormat = TJ.PF_BGRA;
         intPixels = true;  break;
       default:
         throw new Exception("Unsupported BufferedImage format");

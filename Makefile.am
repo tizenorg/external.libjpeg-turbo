@@ -1,8 +1,10 @@
 lib_LTLIBRARIES = libjpeg.la libturbojpeg.la
 libjpeg_la_LDFLAGS = -version-info ${SO_MAJOR_VERSION}:${SO_MINOR_VERSION} -no-undefined
 libturbojpeg_la_LDFLAGS = -avoid-version -no-undefined
-include_HEADERS = jerror.h jmorecfg.h jpeglib.h turbojpeg.h
-nodist_include_HEADERS = jconfig.h
+include_HEADERS = turbojpeg.h
+installheaderjpeglibdir = $(includedir)/turbojpeg
+installheaderjpeglib_HEADERS = jpeglib.h jerror.h jmorecfg.h jconfig.h
+#nodist_include_HEADERS = jconfig.h
 
 HDRS = jchuff.h jdct.h jdhuff.h jerror.h jinclude.h jmemsys.h jmorecfg.h \
 	jpegint.h jpeglib.h jversion.h jsimd.h jsimddct.h jpegcomp.h
@@ -15,6 +17,7 @@ libjpeg_la_SOURCES = $(HDRS) jcapimin.c jcapistd.c jccoefct.c jccolor.c \
 	jdmerge.c jdphuff.c jdpostct.c jdsample.c jdtrans.c jerror.c \
 	jfdctflt.c jfdctfst.c jfdctint.c jidctflt.c jidctfst.c jidctint.c \
 	jidctred.c jquant1.c jquant2.c jutils.c jmemmgr.c jmemnobs.c
+
 
 if WITH_ARITH
 
@@ -37,7 +40,8 @@ endif
 libturbojpeg_la_SOURCES = $(libjpeg_la_SOURCES) turbojpeg.c turbojpeg.h \
 	transupp.c transupp.h jdatadst-tj.c jdatasrc-tj.c
 
-SUBDIRS = java
+SUBDIRS = java 
+SUBDIRS += pkgconfig 
 
 if WITH_JAVA
 
@@ -55,7 +59,7 @@ libturbojpeg_la_SOURCES += $(TJMAPFILE)
 
 if VERSION_SCRIPT
 
-libturbojpeg_la_LDFLAGS += $(VERSION_SCRIPT_FLAG)$(srcdir)/$(TJMAPFILE)
+libturbojpeg_la_LDFLAGS += $(VERSION_SCRIPT_FLAG)$(srcdir)/$(TJMAPFILE) \ $(VERSION_SCRIPT_FLAG)libjpeg.map
 libjpeg_la_LDFLAGS += $(VERSION_SCRIPT_FLAG)libjpeg.map
 
 endif
@@ -73,7 +77,7 @@ libjpeg_la_SOURCES += jsimd_none.c
 endif
 
 bin_PROGRAMS = cjpeg djpeg jpegtran rdjpgcom wrjpgcom tjbench
-noinst_PROGRAMS = tjunittest
+noinst_PROGRAMS = tjunittest jcstest
 
 tjbench_SOURCES = tjbench.c bmp.h bmp.c tjutil.h tjutil.c rdbmp.c rdppm.c \
 	wrbmp.c wrppm.c
@@ -114,23 +118,26 @@ wrjpgcom_SOURCES = wrjpgcom.c
 
 wrjpgcom_LDADD = libjpeg.la
 
+jcstest_SOURCES = jcstest.c
+
+jcstest_LDADD = libjpeg.la
 
 dist_man1_MANS = cjpeg.1 djpeg.1 jpegtran.1 rdjpgcom.1 wrjpgcom.1
 
-DOCS= README install.txt usage.txt wizard.txt example.c libjpeg.txt \
-	structure.txt coderules.txt filelist.txt jconfig.txt change.log \
-	README-turbo.txt rdrle.c wrrle.c BUILDING.txt ChangeLog.txt
+DOCS= install.txt coderules.txt filelist.txt jconfig.txt change.log \
+	rdrle.c wrrle.c BUILDING.txt ChangeLog.txt
 
-TESTFILES= testorig.jpg testorig.ppm testimg.bmp testimgflt.jpg \
-	testimgfst.jpg testimgint.jpg testimgp.jpg testimgflt.ppm testimgfst.ppm \
-	testimgint.ppm testimgflt-nosimd.jpg testimgcrop.jpg testimgari.jpg \
-	testimgari.ppm testimgfst100.jpg testimggray.jpg testimgfst1_2.ppm \
-	testimgfst1_4.ppm testimgfst1_8.ppm testimgint1_2.ppm testimgint1_4.ppm \
-	testimgint1_8.ppm
+docdir = $(datadir)/doc
+dist_doc_DATA = README README-turbo.txt libjpeg.txt structure.txt usage.txt \
+	wizard.txt 
+
+exampledir = $(datadir)/doc
+dist_example_DATA = example.c
 
 
-EXTRA_DIST = win release $(DOCS) $(TESTFILES) CMakeLists.txt \
-	sharedlib/CMakeLists.txt cmakescripts libjpeg.map.in doc doxygen.config
+EXTRA_DIST = win release $(DOCS) testimages CMakeLists.txt \
+	sharedlib/CMakeLists.txt cmakescripts libjpeg.map.in doc doxygen.config \
+	jccolext.c jdcolext.c jdmrgext.c
 
 dist-hook:
 	rm -rf `find $(distdir) -name .svn`
@@ -146,62 +153,62 @@ endif
 	./tjunittest
 	./tjunittest -alloc
 	./tjunittest -yuv
-	./cjpeg -dct int -outfile testoutint.jpg $(srcdir)/testorig.ppm
-	cmp $(srcdir)/testimgint.jpg testoutint.jpg
-	./cjpeg -dct fast -opt -outfile testoutfst.jpg $(srcdir)/testorig.ppm
-	cmp $(srcdir)/testimgfst.jpg testoutfst.jpg
-	./cjpeg -dct fast -quality 100 -opt -outfile testoutfst100.jpg $(srcdir)/testorig.ppm
-	cmp $(srcdir)/testimgfst100.jpg testoutfst100.jpg
-	./cjpeg -dct float -outfile testoutflt.jpg $(srcdir)/testorig.ppm
+	./cjpeg -dct int -outfile testoutint.jpg $(srcdir)/testimages/testorig.ppm
+	cmp $(srcdir)/testimages/testimgint.jpg testoutint.jpg
+	./cjpeg -dct fast -opt -outfile testoutfst.jpg $(srcdir)/testimages/testorig.ppm
+	cmp $(srcdir)/testimages/testimgfst.jpg testoutfst.jpg
+	./cjpeg -dct fast -quality 100 -opt -outfile testoutfst100.jpg $(srcdir)/testimages/testorig.ppm
+	cmp $(srcdir)/testimages/testimgfst100.jpg testoutfst100.jpg
+	./cjpeg -dct float -outfile testoutflt.jpg $(srcdir)/testimages/testorig.ppm
 if WITH_SSE_FLOAT_DCT
-	cmp $(srcdir)/testimgflt.jpg testoutflt.jpg
+	cmp $(srcdir)/testimages/testimgflt.jpg testoutflt.jpg
 else
-	cmp $(srcdir)/testimgflt-nosimd.jpg testoutflt.jpg
+	cmp $(srcdir)/testimages/testimgflt-nosimd.jpg testoutflt.jpg
 endif
-	./cjpeg -dct int -grayscale -outfile testoutgray.jpg $(srcdir)/testorig.ppm
-	cmp $(srcdir)/testimggray.jpg testoutgray.jpg
-	./djpeg -dct int -fast -ppm -outfile testoutint.ppm $(srcdir)/testorig.jpg
-	cmp $(srcdir)/testimgint.ppm testoutint.ppm
-	./djpeg -dct fast -ppm -outfile testoutfst.ppm $(srcdir)/testorig.jpg
-	cmp $(srcdir)/testimgfst.ppm testoutfst.ppm
-	./djpeg -dct float -ppm -outfile testoutflt.ppm $(srcdir)/testorig.jpg
+	./cjpeg -dct int -grayscale -outfile testoutgray.jpg $(srcdir)/testimages/testorig.ppm
+	cmp $(srcdir)/testimages/testimggray.jpg testoutgray.jpg
+	./djpeg -dct int -fast -ppm -outfile testoutint.ppm $(srcdir)/testimages/testorig.jpg
+	cmp $(srcdir)/testimages/testimgint.ppm testoutint.ppm
+	./djpeg -dct fast -ppm -outfile testoutfst.ppm $(srcdir)/testimages/testorig.jpg
+	cmp $(srcdir)/testimages/testimgfst.ppm testoutfst.ppm
+	./djpeg -dct float -ppm -outfile testoutflt.ppm $(srcdir)/testimages/testorig.jpg
 if WITH_SSE_FLOAT_DCT
-	cmp $(srcdir)/testimgflt.ppm testoutflt.ppm
+	cmp $(srcdir)/testimages/testimgflt.ppm testoutflt.ppm
 else
-	cmp $(srcdir)/testorig.ppm testoutflt.ppm
+	cmp $(srcdir)/testimages/testorig.ppm testoutflt.ppm
 endif
-	./djpeg -dct int -scale 1/2 -ppm -outfile testoutint1_2.ppm $(srcdir)/testorig.jpg
-	cmp $(srcdir)/testimgint1_2.ppm testoutint1_2.ppm
-	./djpeg -dct fast -scale 1/2 -ppm -outfile testoutfst1_2.ppm $(srcdir)/testorig.jpg
-	cmp $(srcdir)/testimgfst1_2.ppm testoutfst1_2.ppm
-	./djpeg -dct int -scale 1/4 -ppm -outfile testoutint1_4.ppm $(srcdir)/testorig.jpg
-	cmp $(srcdir)/testimgint1_4.ppm testoutint1_4.ppm
-	./djpeg -dct fast -scale 1/4 -ppm -outfile testoutfst1_4.ppm $(srcdir)/testorig.jpg
-	cmp $(srcdir)/testimgfst1_4.ppm testoutfst1_4.ppm
-	./djpeg -dct int -scale 1/8 -ppm -outfile testoutint1_8.ppm $(srcdir)/testorig.jpg
-	cmp $(srcdir)/testimgint1_8.ppm testoutint1_8.ppm
-	./djpeg -dct fast -scale 1/8 -ppm -outfile testoutfst1_8.ppm $(srcdir)/testorig.jpg
-	cmp $(srcdir)/testimgfst1_8.ppm testoutfst1_8.ppm
-	./djpeg -dct int -bmp -colors 256 -outfile testout.bmp  $(srcdir)/testorig.jpg
-	cmp $(srcdir)/testimg.bmp testout.bmp
+	./djpeg -dct int -scale 1/2 -ppm -outfile testoutint1_2.ppm $(srcdir)/testimages/testorig.jpg
+	cmp $(srcdir)/testimages/testimgint1_2.ppm testoutint1_2.ppm
+	./djpeg -dct fast -scale 1/2 -ppm -outfile testoutfst1_2.ppm $(srcdir)/testimages/testorig.jpg
+	cmp $(srcdir)/testimages/testimgfst1_2.ppm testoutfst1_2.ppm
+	./djpeg -dct int -scale 1/4 -ppm -outfile testoutint1_4.ppm $(srcdir)/testimages/testorig.jpg
+	cmp $(srcdir)/testimages/testimgint1_4.ppm testoutint1_4.ppm
+	./djpeg -dct fast -scale 1/4 -ppm -outfile testoutfst1_4.ppm $(srcdir)/testimages/testorig.jpg
+	cmp $(srcdir)/testimages/testimgfst1_4.ppm testoutfst1_4.ppm
+	./djpeg -dct int -scale 1/8 -ppm -outfile testoutint1_8.ppm $(srcdir)/testimages/testorig.jpg
+	cmp $(srcdir)/testimages/testimgint1_8.ppm testoutint1_8.ppm
+	./djpeg -dct fast -scale 1/8 -ppm -outfile testoutfst1_8.ppm $(srcdir)/testimages/testorig.jpg
+	cmp $(srcdir)/testimages/testimgfst1_8.ppm testoutfst1_8.ppm
+	./djpeg -dct int -bmp -colors 256 -outfile testout.bmp  $(srcdir)/testimages/testorig.jpg
+	cmp $(srcdir)/testimages/testimg.bmp testout.bmp
 if WITH_ARITH_ENC
-	./cjpeg -dct int -arithmetic -outfile testoutari.jpg $(srcdir)/testorig.ppm
-	cmp $(srcdir)/testimgari.jpg testoutari.jpg
-	./jpegtran -arithmetic -outfile testouta.jpg $(srcdir)/testimgint.jpg
-	cmp $(srcdir)/testimgari.jpg testouta.jpg
+	./cjpeg -dct int -arithmetic -outfile testoutari.jpg $(srcdir)/testimages/testorig.ppm
+	cmp $(srcdir)/testimages/testimgari.jpg testoutari.jpg
+	./jpegtran -arithmetic -outfile testouta.jpg $(srcdir)/testimages/testimgint.jpg
+	cmp $(srcdir)/testimages/testimgari.jpg testouta.jpg
 endif
 if WITH_ARITH_DEC
-	./djpeg -dct int -fast -ppm -outfile testoutari.ppm $(srcdir)/testimgari.jpg
-	cmp $(srcdir)/testimgari.ppm testoutari.ppm
-	./jpegtran -outfile testouta.jpg $(srcdir)/testimgari.jpg
-	cmp $(srcdir)/testimgint.jpg testouta.jpg
+	./djpeg -dct int -fast -ppm -outfile testoutari.ppm $(srcdir)/testimages/testimgari.jpg
+	cmp $(srcdir)/testimages/testimgari.ppm testoutari.ppm
+	./jpegtran -outfile testouta.jpg $(srcdir)/testimages/testimgari.jpg
+	cmp $(srcdir)/testimages/testimgint.jpg testouta.jpg
 endif
-	./cjpeg -dct int -progressive -outfile testoutp.jpg $(srcdir)/testorig.ppm
-	cmp $(srcdir)/testimgp.jpg testoutp.jpg
+	./cjpeg -dct int -progressive -outfile testoutp.jpg $(srcdir)/testimages/testorig.ppm
+	cmp $(srcdir)/testimages/testimgp.jpg testoutp.jpg
 	./jpegtran -outfile testoutt.jpg testoutp.jpg
-	cmp $(srcdir)/testimgint.jpg testoutt.jpg
-	./jpegtran -crop 120x90+20+50 -transpose -perfect -outfile testoutcrop.jpg $(srcdir)/testorig.jpg
-	cmp $(srcdir)/testimgcrop.jpg testoutcrop.jpg
+	cmp $(srcdir)/testimages/testimgint.jpg testoutt.jpg
+	./jpegtran -crop 120x90+20+50 -transpose -perfect -outfile testoutcrop.jpg $(srcdir)/testimages/testorig.jpg
+	cmp $(srcdir)/testimages/testimgcrop.jpg testoutcrop.jpg
 
 
 testclean:
@@ -231,6 +238,14 @@ testclean:
 	rm -f *_440_*.ppm
 	rm -f *_440_*.jpg
 	rm -f *_440.yuv
+
+
+tjtest:
+	sh ./tjbenchtest
+if WITH_JAVA
+	sh ./tjexampletest
+endif
+
 
 if X86_64
 
@@ -262,7 +277,7 @@ rpm: all
 	ln -fs `pwd` $$TMPDIR/BUILD; \
 	rm -f ${PACKAGE_NAME}-${VERSION}.${RPMARCH}.rpm; \
 	rpmbuild -bb --define "_blddir $$TMPDIR/buildroot"  \
-		--define "_topdir $$TMPDIR" --define "_srcdir ${srcdir}" \
+		--define "_topdir $$TMPDIR" \
 		--target ${RPMARCH} pkgscripts/libjpeg-turbo.spec; \
 	cp $$TMPDIR/RPMS/${RPMARCH}/${PACKAGE_NAME}-${VERSION}-${BUILD}.${RPMARCH}.rpm \
 		${PACKAGE_NAME}-${VERSION}.${RPMARCH}.rpm; \
@@ -278,7 +293,7 @@ srpm: dist-gzip
 	rm -f ${PACKAGE_NAME}-${VERSION}.src.rpm; \
 	cp ${PACKAGE_NAME}-${VERSION}.tar.gz $$TMPDIR/SOURCES; \
 	cat pkgscripts/libjpeg-turbo.spec | sed s/%{_blddir}/%{_tmppath}/g \
-		| sed s@%{_srcdir}/@@g | sed s/#--\>//g \
+		| sed s/#--\>//g \
 		> $$TMPDIR/SPECS/libjpeg-turbo.spec; \
 	rpmbuild -bs --define "_topdir $$TMPDIR" $$TMPDIR/SPECS/libjpeg-turbo.spec; \
 	cp $$TMPDIR/SRPMS/${PACKAGE_NAME}-${VERSION}-${BUILD}.src.rpm \
@@ -291,7 +306,15 @@ deb: all
 if X86_64
 
 udmg: all
-	sh pkgscripts/makemacpkg universal ${BUILDDIR32}
+	sh pkgscripts/makemacpkg -builddir32 ${BUILDDIR32}
+
+iosdmg: all
+	sh pkgscripts/makemacpkg -builddir32 ${BUILDDIR32} -builddirarmv6 ${BUILDDIRARMV6} -builddirarmv7 ${BUILDDIRARMV7}
+
+else
+
+iosdmg: all
+	sh pkgscripts/makemacpkg -builddirarmv6 ${BUILDDIRARMV6} -builddirarmv7 ${BUILDDIRARMV7}
 
 endif
 

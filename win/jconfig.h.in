@@ -2,6 +2,7 @@
 /* see jconfig.txt for explanations */
 
 #define JPEG_LIB_VERSION @JPEG_LIB_VERSION@
+#define LIBJPEG_TURBO_VERSION @VERSION@
 #cmakedefine C_ARITH_CODING_SUPPORTED
 #cmakedefine D_ARITH_CODING_SUPPORTED
 
@@ -31,8 +32,6 @@ typedef short INT16;
 typedef signed int INT32;
 #endif
 #define XMD_H                   /* prevent jmorecfg.h from redefining it */
-
-#define inline __inline
 
 #ifdef JPEG_INTERNALS
 

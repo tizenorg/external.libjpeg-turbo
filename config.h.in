@@ -63,8 +63,14 @@
 /* Compiler does not support pointers to undefined structures. */
 #undef INCOMPLETE_TYPES_BROKEN
 
+/* How to obtain function inlining. */
+#undef INLINE
+
 /* libjpeg API version */
 #undef JPEG_LIB_VERSION
+
+/* libjpeg-turbo version */
+#undef LIBJPEG_TURBO_VERSION
 
 /* Define to the sub-directory in which libtool stores uninstalled libraries.
    */

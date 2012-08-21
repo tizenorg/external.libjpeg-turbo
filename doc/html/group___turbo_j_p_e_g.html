@@ -103,12 +103,16 @@ Defines</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This option will enable lossless cropping.  <a href="#ga9c771a757fc1294add611906b89ab2d2"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___turbo_j_p_e_g.html#ga3acee7b48ade1b99e5588736007c2589">TJXOPT_GRAY</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This option will discard the color data in the input image and produce a grayscale output image.  <a href="#ga3acee7b48ade1b99e5588736007c2589"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___turbo_j_p_e_g.html#gafbf992bbf6e006705886333703ffab31">TJXOPT_NOOUTPUT</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">This option will prevent <a class="el" href="group___turbo_j_p_e_g.html#gae403193ceb4aafb7e0f56ab587b48616" title="Losslessly transform a JPEG image into another JPEG image.">tjTransform()</a> from outputting a JPEG image for this particular transform (this can be used in conjunction with a custom filter to capture the transformed DCT coefficients without transcoding them.)  <a href="#gafbf992bbf6e006705886333703ffab31"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___turbo_j_p_e_g.html#ga0aba955473315e405295d978f0c16511">TJPAD</a>(width)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Pad the given width to the nearest 32-bit boundary.  <a href="#ga0aba955473315e405295d978f0c16511"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___turbo_j_p_e_g.html#ga84878bb65404204743aa18cac02781df">TJSCALED</a>(dimension, scalingFactor)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compute the scaled value of <code>dimension</code> using the given scaling factor.  <a href="#ga84878bb65404204743aa18cac02781df"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">typedef struct <a class="el" href="structtjtransform.html">tjtransform</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___turbo_j_p_e_g.html#gaa29f3189c41be12ec5dee7caec318a31">tjtransform</a></td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Lossless transform.  <a href="#gaa29f3189c41be12ec5dee7caec318a31"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___turbo_j_p_e_g.html#ga758d2634ecb4949de7815cba621f5763">tjhandle</a></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">TurboJPEG instance handle.  <a href="#ga758d2634ecb4949de7815cba621f5763"></a><br/></td></tr>
 <tr><td colspan="2"><h2><a name="enum-members"></a>
@@ -131,7 +135,12 @@ Enumerations</h2></td></tr>
 <br/>
 &#160;&#160;<a class="el" href="group___turbo_j_p_e_g.html#ggac916144e26c3817ac514e64ae5d12e2aaf6603b27147de47e212e75dac027b2af">TJPF_XBGR</a>, 
 <a class="el" href="group___turbo_j_p_e_g.html#ggac916144e26c3817ac514e64ae5d12e2aadae996905efcfa3b42a0bb3bea7f9d84">TJPF_XRGB</a>, 
-<a class="el" href="group___turbo_j_p_e_g.html#ggac916144e26c3817ac514e64ae5d12e2aa5431b54b015337705f13118073711a1a">TJPF_GRAY</a>
+<a class="el" href="group___turbo_j_p_e_g.html#ggac916144e26c3817ac514e64ae5d12e2aa5431b54b015337705f13118073711a1a">TJPF_GRAY</a>, 
+<a class="el" href="group___turbo_j_p_e_g.html#ggac916144e26c3817ac514e64ae5d12e2aa88d2e88fab67f6503cf972e14851cc12">TJPF_RGBA</a>, 
+<br/>
+&#160;&#160;<a class="el" href="group___turbo_j_p_e_g.html#ggac916144e26c3817ac514e64ae5d12e2aac037ff1845cf9b74bb81a3659c2b9fb4">TJPF_BGRA</a>, 
+<a class="el" href="group___turbo_j_p_e_g.html#ggac916144e26c3817ac514e64ae5d12e2aa1ba1a7f1631dbeaa49a0a85fc4a40081">TJPF_ABGR</a>, 
+<a class="el" href="group___turbo_j_p_e_g.html#ggac916144e26c3817ac514e64ae5d12e2aae8f846ed9d9de99b6e1dfe448848765c">TJPF_ARGB</a>
 <br/>
  }</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Pixel formats.  <a href="group___turbo_j_p_e_g.html#gac916144e26c3817ac514e64ae5d12e2a">More...</a><br/></td></tr>
@@ -154,10 +163,10 @@ Functions</h2></td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a TurboJPEG compressor instance.  <a href="#ga3d10c47fbe4a2489a2b30c931551d01a"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">DLLEXPORT int DLLCALL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___turbo_j_p_e_g.html#gaba62b7a98f960839b588579898495cf2">tjCompress2</a> (<a class="el" href="group___turbo_j_p_e_g.html#ga758d2634ecb4949de7815cba621f5763">tjhandle</a> handle, unsigned char *srcBuf, int width, int pitch, int height, int pixelFormat, unsigned char **jpegBuf, unsigned long *jpegSize, int jpegSubsamp, int jpegQual, int flags)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Compress an RGB or grayscale image into a JPEG image.  <a href="#gaba62b7a98f960839b588579898495cf2"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">DLLEXPORT unsigned long DLLCALL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___turbo_j_p_e_g.html#ga68f4761dc5213cb9653a2f6ce236716e">TJBUFSIZE</a> (int width, int height)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum size of the buffer (in bytes) required to hold a JPEG image with the given parameters.  <a href="#ga68f4761dc5213cb9653a2f6ce236716e"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">DLLEXPORT unsigned long DLLCALL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___turbo_j_p_e_g.html#ga8e624b291053bf850b7409af9b2d7ac8">TJBUFSIZEYUV</a> (int width, int height, int jpegSubsamp)</td></tr>
-<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The size of the buffer (in bytes) required to hold a YUV planar image with the given parameters.  <a href="#ga8e624b291053bf850b7409af9b2d7ac8"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">DLLEXPORT unsigned long DLLCALL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___turbo_j_p_e_g.html#gaccc5bca7f12fcdcc302e6e1c6d4b311b">tjBufSize</a> (int width, int height, int jpegSubsamp)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The maximum size of the buffer (in bytes) required to hold a JPEG image with the given parameters.  <a href="#gaccc5bca7f12fcdcc302e6e1c6d4b311b"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">DLLEXPORT unsigned long DLLCALL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___turbo_j_p_e_g.html#ga9d0cb06fd5052d21b6f2b382db8b219c">tjBufSizeYUV</a> (int width, int height, int subsamp)</td></tr>
+<tr><td class="mdescLeft">&#160;</td><td class="mdescRight">The size of the buffer (in bytes) required to hold a YUV planar image with the given parameters.  <a href="#ga9d0cb06fd5052d21b6f2b382db8b219c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">DLLEXPORT int DLLCALL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___turbo_j_p_e_g.html#ga0fa4e7b1943687c6a0c0304529c55d35">tjEncodeYUV2</a> (<a class="el" href="group___turbo_j_p_e_g.html#ga758d2634ecb4949de7815cba621f5763">tjhandle</a> handle, unsigned char *srcBuf, int width, int pitch, int height, int pixelFormat, unsigned char *dstBuf, int subsamp, int flags)</td></tr>
 <tr><td class="mdescLeft">&#160;</td><td class="mdescRight">Encode an RGB or grayscale image into a YUV planar image.  <a href="#ga0fa4e7b1943687c6a0c0304529c55d35"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">DLLEXPORT <a class="el" href="group___turbo_j_p_e_g.html#ga758d2634ecb4949de7815cba621f5763">tjhandle</a> DLLCALL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group___turbo_j_p_e_g.html#gae5408179d041e2a2f7199c8283cf649e">tjInitDecompress</a> (void)</td></tr>
@@ -432,6 +441,21 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="gafbf992bbf6e006705886333703ffab31"></a><!-- doxytag: member="turbojpeg.h::TJXOPT_NOOUTPUT" ref="gafbf992bbf6e006705886333703ffab31" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define TJXOPT_NOOUTPUT</td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>This option will prevent <a class="el" href="group___turbo_j_p_e_g.html#gae403193ceb4aafb7e0f56ab587b48616" title="Losslessly transform a JPEG image into another JPEG image.">tjTransform()</a> from outputting a JPEG image for this particular transform (this can be used in conjunction with a custom filter to capture the transformed DCT coefficients without transcoding them.) </p>
+
+</div>
+</div>
 <a class="anchor" id="ga50e03cb5ed115330e212417429600b00"></a><!-- doxytag: member="turbojpeg.h::TJXOPT_PERFECT" ref="ga50e03cb5ed115330e212417429600b00" args="" -->
 <div class="memitem">
 <div class="memproto">
@@ -479,6 +503,21 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="gaa29f3189c41be12ec5dee7caec318a31"></a><!-- doxytag: member="turbojpeg.h::tjtransform" ref="gaa29f3189c41be12ec5dee7caec318a31" args="" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef struct <a class="el" href="structtjtransform.html">tjtransform</a>  <a class="el" href="structtjtransform.html">tjtransform</a></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
+<p>Lossless transform. </p>
+
+</div>
+</div>
 <hr/><h2>Enumeration Type Documentation</h2>
 <a class="anchor" id="gac916144e26c3817ac514e64ae5d12e2a"></a><!-- doxytag: member="turbojpeg.h::TJPF" ref="gac916144e26c3817ac514e64ae5d12e2a" args="" -->
 <div class="memitem">
@@ -503,23 +542,39 @@ Variables</h2></td></tr>
 </td></tr>
 <tr><td valign="top"><em><a class="anchor" id="ggac916144e26c3817ac514e64ae5d12e2aa83973bebb7e2dc6fa8bae89ff3f42e01"></a><!-- doxytag: member="TJPF_RGBX" ref="ggac916144e26c3817ac514e64ae5d12e2aa83973bebb7e2dc6fa8bae89ff3f42e01" args="" -->TJPF_RGBX</em>&nbsp;</td><td>
 <p>RGBX pixel format. </p>
-<p>The red, green, and blue components in the image are stored in 4-byte pixels in the order R, G, B from lowest to highest byte address within each pixel. </p>
+<p>The red, green, and blue components in the image are stored in 4-byte pixels in the order R, G, B from lowest to highest byte address within each pixel. The X component is ignored when compressing and undefined when decompressing. </p>
 </td></tr>
 <tr><td valign="top"><em><a class="anchor" id="ggac916144e26c3817ac514e64ae5d12e2aa2a1fbf569ca79897eae886e3376ca4c8"></a><!-- doxytag: member="TJPF_BGRX" ref="ggac916144e26c3817ac514e64ae5d12e2aa2a1fbf569ca79897eae886e3376ca4c8" args="" -->TJPF_BGRX</em>&nbsp;</td><td>
 <p>BGRX pixel format. </p>
-<p>The red, green, and blue components in the image are stored in 4-byte pixels in the order B, G, R from lowest to highest byte address within each pixel. </p>
+<p>The red, green, and blue components in the image are stored in 4-byte pixels in the order B, G, R from lowest to highest byte address within each pixel. The X component is ignored when compressing and undefined when decompressing. </p>
 </td></tr>
 <tr><td valign="top"><em><a class="anchor" id="ggac916144e26c3817ac514e64ae5d12e2aaf6603b27147de47e212e75dac027b2af"></a><!-- doxytag: member="TJPF_XBGR" ref="ggac916144e26c3817ac514e64ae5d12e2aaf6603b27147de47e212e75dac027b2af" args="" -->TJPF_XBGR</em>&nbsp;</td><td>
 <p>XBGR pixel format. </p>
-<p>The red, green, and blue components in the image are stored in 4-byte pixels in the order R, G, B from highest to lowest byte address within each pixel. </p>
+<p>The red, green, and blue components in the image are stored in 4-byte pixels in the order R, G, B from highest to lowest byte address within each pixel. The X component is ignored when compressing and undefined when decompressing. </p>
 </td></tr>
 <tr><td valign="top"><em><a class="anchor" id="ggac916144e26c3817ac514e64ae5d12e2aadae996905efcfa3b42a0bb3bea7f9d84"></a><!-- doxytag: member="TJPF_XRGB" ref="ggac916144e26c3817ac514e64ae5d12e2aadae996905efcfa3b42a0bb3bea7f9d84" args="" -->TJPF_XRGB</em>&nbsp;</td><td>
 <p>XRGB pixel format. </p>
-<p>The red, green, and blue components in the image are stored in 4-byte pixels in the order B, G, R from highest to lowest byte address within each pixel. </p>
+<p>The red, green, and blue components in the image are stored in 4-byte pixels in the order B, G, R from highest to lowest byte address within each pixel. The X component is ignored when compressing and undefined when decompressing. </p>
 </td></tr>
 <tr><td valign="top"><em><a class="anchor" id="ggac916144e26c3817ac514e64ae5d12e2aa5431b54b015337705f13118073711a1a"></a><!-- doxytag: member="TJPF_GRAY" ref="ggac916144e26c3817ac514e64ae5d12e2aa5431b54b015337705f13118073711a1a" args="" -->TJPF_GRAY</em>&nbsp;</td><td>
 <p>Grayscale pixel format. </p>
 <p>Each 1-byte pixel represents a luminance (brightness) level from 0 to 255. </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ggac916144e26c3817ac514e64ae5d12e2aa88d2e88fab67f6503cf972e14851cc12"></a><!-- doxytag: member="TJPF_RGBA" ref="ggac916144e26c3817ac514e64ae5d12e2aa88d2e88fab67f6503cf972e14851cc12" args="" -->TJPF_RGBA</em>&nbsp;</td><td>
+<p>RGBA pixel format. </p>
+<p>This is the same as <a class="el" href="group___turbo_j_p_e_g.html#ggac916144e26c3817ac514e64ae5d12e2aa83973bebb7e2dc6fa8bae89ff3f42e01">TJPF_RGBX</a>, except that when decompressing, the X component is guaranteed to be 0xFF, which can be interpreted as an opaque alpha channel. </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ggac916144e26c3817ac514e64ae5d12e2aac037ff1845cf9b74bb81a3659c2b9fb4"></a><!-- doxytag: member="TJPF_BGRA" ref="ggac916144e26c3817ac514e64ae5d12e2aac037ff1845cf9b74bb81a3659c2b9fb4" args="" -->TJPF_BGRA</em>&nbsp;</td><td>
+<p>BGRA pixel format. </p>
+<p>This is the same as <a class="el" href="group___turbo_j_p_e_g.html#ggac916144e26c3817ac514e64ae5d12e2aa2a1fbf569ca79897eae886e3376ca4c8">TJPF_BGRX</a>, except that when decompressing, the X component is guaranteed to be 0xFF, which can be interpreted as an opaque alpha channel. </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ggac916144e26c3817ac514e64ae5d12e2aa1ba1a7f1631dbeaa49a0a85fc4a40081"></a><!-- doxytag: member="TJPF_ABGR" ref="ggac916144e26c3817ac514e64ae5d12e2aa1ba1a7f1631dbeaa49a0a85fc4a40081" args="" -->TJPF_ABGR</em>&nbsp;</td><td>
+<p>ABGR pixel format. </p>
+<p>This is the same as <a class="el" href="group___turbo_j_p_e_g.html#ggac916144e26c3817ac514e64ae5d12e2aaf6603b27147de47e212e75dac027b2af">TJPF_XBGR</a>, except that when decompressing, the X component is guaranteed to be 0xFF, which can be interpreted as an opaque alpha channel. </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="ggac916144e26c3817ac514e64ae5d12e2aae8f846ed9d9de99b6e1dfe448848765c"></a><!-- doxytag: member="TJPF_ARGB" ref="ggac916144e26c3817ac514e64ae5d12e2aae8f846ed9d9de99b6e1dfe448848765c" args="" -->TJPF_ARGB</em>&nbsp;</td><td>
+<p>ARGB pixel format. </p>
+<p>This is the same as <a class="el" href="group___turbo_j_p_e_g.html#ggac916144e26c3817ac514e64ae5d12e2aadae996905efcfa3b42a0bb3bea7f9d84">TJPF_XRGB</a>, except that when decompressing, the X component is guaranteed to be 0xFF, which can be interpreted as an opaque alpha channel. </p>
 </td></tr>
 </table>
 </dd>
@@ -644,49 +699,12 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="ga68f4761dc5213cb9653a2f6ce236716e"></a><!-- doxytag: member="turbojpeg.h::TJBUFSIZE" ref="ga68f4761dc5213cb9653a2f6ce236716e" args="(int width, int height)" -->
+<a class="anchor" id="gaccc5bca7f12fcdcc302e6e1c6d4b311b"></a><!-- doxytag: member="turbojpeg.h::tjBufSize" ref="gaccc5bca7f12fcdcc302e6e1c6d4b311b" args="(int width, int height, int jpegSubsamp)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">DLLEXPORT unsigned long DLLCALL TJBUFSIZE </td>
-          <td>(</td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>width</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>height</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div>
-<div class="memdoc">
-
-<p>The maximum size of the buffer (in bytes) required to hold a JPEG image with the given parameters. </p>
-<dl><dt><b>Parameters:</b></dt><dd>
-  <table class="params">
-    <tr><td class="paramname">width</td><td>width of the image (in pixels) </td></tr>
-    <tr><td class="paramname">height</td><td>height of the image (in pixels)</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>the maximum size of the buffer (in bytes) required to hold the image, or -1 if the arguments are out of bounds. </dd></dl>
-
-</div>
-</div>
-<a class="anchor" id="ga8e624b291053bf850b7409af9b2d7ac8"></a><!-- doxytag: member="turbojpeg.h::TJBUFSIZEYUV" ref="ga8e624b291053bf850b7409af9b2d7ac8" args="(int width, int height, int jpegSubsamp)" -->
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">DLLEXPORT unsigned long DLLCALL TJBUFSIZEYUV </td>
+          <td class="memname">DLLEXPORT unsigned long DLLCALL tjBufSize </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>width</em>, </td>
@@ -712,12 +730,57 @@ Variables</h2></td></tr>
 </div>
 <div class="memdoc">
 
+<p>The maximum size of the buffer (in bytes) required to hold a JPEG image with the given parameters. </p>
+<p>The number of bytes returned by this function is larger than the size of the uncompressed source image. The reason for this is that the JPEG format uses 16-bit coefficients, and it is thus possible for a very high-quality JPEG image with very high frequency content to expand rather than compress when converted to the JPEG format. Such images represent a very rare corner case, but since there is no way to predict the size of a JPEG image prior to compression, the corner case has to be handled.</p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table class="params">
+    <tr><td class="paramname">width</td><td>width of the image (in pixels) </td></tr>
+    <tr><td class="paramname">height</td><td>height of the image (in pixels) </td></tr>
+    <tr><td class="paramname">jpegSubsamp</td><td>the level of chrominance subsampling to be used when generating the JPEG image (see <a class="el" href="group___turbo_j_p_e_g.html#ga1d047060ea80bb9820d540bb928e9074">Chrominance subsampling options</a>.)</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>the maximum size of the buffer (in bytes) required to hold the image, or -1 if the arguments are out of bounds. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga9d0cb06fd5052d21b6f2b382db8b219c"></a><!-- doxytag: member="turbojpeg.h::tjBufSizeYUV" ref="ga9d0cb06fd5052d21b6f2b382db8b219c" args="(int width, int height, int subsamp)" -->
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">DLLEXPORT unsigned long DLLCALL tjBufSizeYUV </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>subsamp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div>
+<div class="memdoc">
+
 <p>The size of the buffer (in bytes) required to hold a YUV planar image with the given parameters. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table class="params">
     <tr><td class="paramname">width</td><td>width of the image (in pixels) </td></tr>
     <tr><td class="paramname">height</td><td>height of the image (in pixels) </td></tr>
-    <tr><td class="paramname">jpegSubsamp</td><td>level of chrominance subsampling in the image (see <a class="el" href="group___turbo_j_p_e_g.html#ga1d047060ea80bb9820d540bb928e9074">Chrominance subsampling options</a>.)</td></tr>
+    <tr><td class="paramname">subsamp</td><td>level of chrominance subsampling in the image (see <a class="el" href="group___turbo_j_p_e_g.html#ga1d047060ea80bb9820d540bb928e9074">Chrominance subsampling options</a>.)</td></tr>
   </table>
   </dd>
 </dl>
@@ -816,10 +879,10 @@ Variables</h2></td></tr>
     <tr><td class="paramname">jpegBuf</td><td>address of a pointer to an image buffer that will receive the JPEG image. TurboJPEG has the ability to reallocate the JPEG buffer to accommodate the size of the JPEG image. Thus, you can choose to:<ol type="1">
 <li>pre-allocate the JPEG buffer with an arbitrary size using <a class="el" href="group___turbo_j_p_e_g.html#ga5c9234bda6d993cdaffdd89bf81a00ff" title="Allocate an image buffer for use with TurboJPEG.">tjAlloc()</a> and let TurboJPEG grow the buffer as needed,</li>
 <li>set <code>*jpegBuf</code> to NULL to tell TurboJPEG to allocate the buffer for you, or</li>
-<li>pre-allocate the buffer to a "worst case" size determined by calling <a class="el" href="group___turbo_j_p_e_g.html#ga68f4761dc5213cb9653a2f6ce236716e" title="The maximum size of the buffer (in bytes) required to hold a JPEG image with the given parameters...">TJBUFSIZE()</a>. This should ensure that the buffer never has to be re-allocated (setting <a class="el" href="group___turbo_j_p_e_g.html#ga8808d403c68b62aaa58a4c1e58e98963" title="Disable buffer (re)allocation.">TJFLAG_NOREALLOC</a> guarantees this.)</li>
+<li>pre-allocate the buffer to a "worst case" size determined by calling <a class="el" href="group___turbo_j_p_e_g.html#gaccc5bca7f12fcdcc302e6e1c6d4b311b" title="The maximum size of the buffer (in bytes) required to hold a JPEG image with the given parameters...">tjBufSize()</a>. This should ensure that the buffer never has to be re-allocated (setting <a class="el" href="group___turbo_j_p_e_g.html#ga8808d403c68b62aaa58a4c1e58e98963" title="Disable buffer (re)allocation.">TJFLAG_NOREALLOC</a> guarantees this.)</li>
 </ol>
 If you choose option 1, <code>*jpegSize</code> should be set to the size of your pre-allocated buffer. In any case, unless you have set <a class="el" href="group___turbo_j_p_e_g.html#ga8808d403c68b62aaa58a4c1e58e98963" title="Disable buffer (re)allocation.">TJFLAG_NOREALLOC</a>, you should always check <code>*jpegBuf</code> upon return from this function, as it may have changed. </td></tr>
-    <tr><td class="paramname">jpegSize</td><td>pointer to an unsigned long variable which holds the size of the JPEG image buffer. If <code>*jpegBuf</code> points to a pre-allocated buffer, then <code>*jpegSize</code> should be set to the size of the buffer. Upon return, <code>*jpegSize</code> will contain the size of the JPEG image (in bytes.) </td></tr>
+    <tr><td class="paramname">jpegSize</td><td>pointer to an unsigned long variable that holds the size of the JPEG image buffer. If <code>*jpegBuf</code> points to a pre-allocated buffer, then <code>*jpegSize</code> should be set to the size of the buffer. Upon return, <code>*jpegSize</code> will contain the size of the JPEG image (in bytes.) </td></tr>
     <tr><td class="paramname">jpegSubsamp</td><td>the level of chrominance subsampling to be used when generating the JPEG image (see <a class="el" href="group___turbo_j_p_e_g.html#ga1d047060ea80bb9820d540bb928e9074">Chrominance subsampling options</a>.) </td></tr>
     <tr><td class="paramname">jpegQual</td><td>the image quality of the generated JPEG image (1 = worst, 100 = best) </td></tr>
     <tr><td class="paramname">flags</td><td>the bitwise OR of one or more of the <a class="el" href="group___turbo_j_p_e_g.html#ga72ecf4ebe6eb702d3c6f5ca27455e1ec">flags</a>.</td></tr>
@@ -903,7 +966,7 @@ If you choose option 1, <code>*jpegSize</code> should be set to the size of your
     <tr><td class="paramname">handle</td><td>a handle to a TurboJPEG decompressor or transformer instance </td></tr>
     <tr><td class="paramname">jpegBuf</td><td>pointer to a buffer containing the JPEG image to decompress </td></tr>
     <tr><td class="paramname">jpegSize</td><td>size of the JPEG image (in bytes) </td></tr>
-    <tr><td class="paramname">dstBuf</td><td>pointer to an image buffer which will receive the decompressed image. This buffer should normally be <code>pitch * scaledHeight</code> bytes in size, where <code>scaledHeight</code> can be determined by calling <a class="el" href="group___turbo_j_p_e_g.html#ga84878bb65404204743aa18cac02781df" title="Compute the scaled value of dimension using the given scaling factor.">TJSCALED()</a> with the JPEG image height and one of the scaling factors returned by <a class="el" href="group___turbo_j_p_e_g.html#ga6449044b9af402999ccf52f401333be8" title="Returns a list of fractional scaling factors that the JPEG decompressor in this implementation of Tur...">tjGetScalingFactors()</a>. The dstBuf pointer may also be used to decompress into a specific region of a larger buffer. </td></tr>
+    <tr><td class="paramname">dstBuf</td><td>pointer to an image buffer that will receive the decompressed image. This buffer should normally be <code>pitch * scaledHeight</code> bytes in size, where <code>scaledHeight</code> can be determined by calling <a class="el" href="group___turbo_j_p_e_g.html#ga84878bb65404204743aa18cac02781df" title="Compute the scaled value of dimension using the given scaling factor.">TJSCALED()</a> with the JPEG image height and one of the scaling factors returned by <a class="el" href="group___turbo_j_p_e_g.html#ga6449044b9af402999ccf52f401333be8" title="Returns a list of fractional scaling factors that the JPEG decompressor in this implementation of Tur...">tjGetScalingFactors()</a>. The dstBuf pointer may also be used to decompress into a specific region of a larger buffer. </td></tr>
     <tr><td class="paramname">width</td><td>desired width (in pixels) of the destination image. If this is smaller than the width of the JPEG image being decompressed, then TurboJPEG will use scaling in the JPEG decompressor to generate the largest possible image that will fit within the desired width. If width is set to 0, then only the height will be considered when determining the scaled image size. </td></tr>
     <tr><td class="paramname">pitch</td><td>bytes per line of the destination image. Normally, this is <code>scaledWidth * <a class="el" href="group___turbo_j_p_e_g.html#gad77cf8fe5b2bfd3cb3f53098146abb4c" title="Pixel size (in bytes) for a given pixel format.">tjPixelSize</a>[pixelFormat]</code> if the decompressed image is unpadded, else <code><a class="el" href="group___turbo_j_p_e_g.html#ga0aba955473315e405295d978f0c16511" title="Pad the given width to the nearest 32-bit boundary.">TJPAD</a>(scaledWidth * <a class="el" href="group___turbo_j_p_e_g.html#gad77cf8fe5b2bfd3cb3f53098146abb4c" title="Pixel size (in bytes) for a given pixel format.">tjPixelSize</a>[pixelFormat])</code> if each line of the decompressed image is padded to the nearest 32-bit boundary, as is the case for Windows bitmaps. (NOTE: <code>scaledWidth</code> can be determined by calling <a class="el" href="group___turbo_j_p_e_g.html#ga84878bb65404204743aa18cac02781df" title="Compute the scaled value of dimension using the given scaling factor.">TJSCALED()</a> with the JPEG image width and one of the scaling factors returned by <a class="el" href="group___turbo_j_p_e_g.html#ga6449044b9af402999ccf52f401333be8" title="Returns a list of fractional scaling factors that the JPEG decompressor in this implementation of Tur...">tjGetScalingFactors()</a>.) You can also be clever and use the pitch parameter to skip lines, etc. Setting this parameter to 0 is the equivalent of setting it to <code>scaledWidth * <a class="el" href="group___turbo_j_p_e_g.html#gad77cf8fe5b2bfd3cb3f53098146abb4c" title="Pixel size (in bytes) for a given pixel format.">tjPixelSize</a>[pixelFormat]</code>. </td></tr>
     <tr><td class="paramname">height</td><td>desired height (in pixels) of the destination image. If this is smaller than the height of the JPEG image being decompressed, then TurboJPEG will use scaling in the JPEG decompressor to generate the largest possible image that will fit within the desired height. If height is set to 0, then only the width will be considered when determining the scaled image size. </td></tr>
@@ -971,9 +1034,9 @@ If you choose option 1, <code>*jpegSize</code> should be set to the size of your
     <tr><td class="paramname">handle</td><td>a handle to a TurboJPEG decompressor or transformer instance </td></tr>
     <tr><td class="paramname">jpegBuf</td><td>pointer to a buffer containing a JPEG image </td></tr>
     <tr><td class="paramname">jpegSize</td><td>size of the JPEG image (in bytes) </td></tr>
-    <tr><td class="paramname">width</td><td>pointer to an integer variable which will receive the width (in pixels) of the JPEG image </td></tr>
-    <tr><td class="paramname">height</td><td>pointer to an integer variable which will receive the height (in pixels) of the JPEG image </td></tr>
-    <tr><td class="paramname">jpegSubsamp</td><td>pointer to an integer variable which will receive the level of chrominance subsampling used when compressing the JPEG image (see <a class="el" href="group___turbo_j_p_e_g.html#ga1d047060ea80bb9820d540bb928e9074">Chrominance subsampling options</a>.)</td></tr>
+    <tr><td class="paramname">width</td><td>pointer to an integer variable that will receive the width (in pixels) of the JPEG image </td></tr>
+    <tr><td class="paramname">height</td><td>pointer to an integer variable that will receive the height (in pixels) of the JPEG image </td></tr>
+    <tr><td class="paramname">jpegSubsamp</td><td>pointer to an integer variable that will receive the level of chrominance subsampling used when compressing the JPEG image (see <a class="el" href="group___turbo_j_p_e_g.html#ga1d047060ea80bb9820d540bb928e9074">Chrominance subsampling options</a>.)</td></tr>
   </table>
   </dd>
 </dl>
@@ -1031,7 +1094,7 @@ If you choose option 1, <code>*jpegSize</code> should be set to the size of your
     <tr><td class="paramname">handle</td><td>a handle to a TurboJPEG decompressor or transformer instance </td></tr>
     <tr><td class="paramname">jpegBuf</td><td>pointer to a buffer containing the JPEG image to decompress </td></tr>
     <tr><td class="paramname">jpegSize</td><td>size of the JPEG image (in bytes) </td></tr>
-    <tr><td class="paramname">dstBuf</td><td>pointer to an image buffer which will receive the YUV image. Use <a class="el" href="group___turbo_j_p_e_g.html#ga8e624b291053bf850b7409af9b2d7ac8" title="The size of the buffer (in bytes) required to hold a YUV planar image with the given parameters...">TJBUFSIZEYUV</a> to determine the appropriate size for this buffer based on the image width, height, and level of subsampling. </td></tr>
+    <tr><td class="paramname">dstBuf</td><td>pointer to an image buffer that will receive the YUV image. Use <a class="el" href="group___turbo_j_p_e_g.html#ga9d0cb06fd5052d21b6f2b382db8b219c" title="The size of the buffer (in bytes) required to hold a YUV planar image with the given parameters...">tjBufSizeYUV</a> to determine the appropriate size for this buffer based on the image width, height, and level of subsampling. </td></tr>
     <tr><td class="paramname">flags</td><td>the bitwise OR of one or more of the <a class="el" href="group___turbo_j_p_e_g.html#ga72ecf4ebe6eb702d3c6f5ca27455e1ec">flags</a>.</td></tr>
   </table>
   </dd>
@@ -1143,7 +1206,7 @@ If you choose option 1, <code>*jpegSize</code> should be set to the size of your
     <tr><td class="paramname">pitch</td><td>bytes per line of the source image. Normally, this should be <code>width * <a class="el" href="group___turbo_j_p_e_g.html#gad77cf8fe5b2bfd3cb3f53098146abb4c" title="Pixel size (in bytes) for a given pixel format.">tjPixelSize</a>[pixelFormat]</code> if the image is unpadded, or <code><a class="el" href="group___turbo_j_p_e_g.html#ga0aba955473315e405295d978f0c16511" title="Pad the given width to the nearest 32-bit boundary.">TJPAD</a>(width * <a class="el" href="group___turbo_j_p_e_g.html#gad77cf8fe5b2bfd3cb3f53098146abb4c" title="Pixel size (in bytes) for a given pixel format.">tjPixelSize</a>[pixelFormat])</code> if each line of the image is padded to the nearest 32-bit boundary, as is the case for Windows bitmaps. You can also be clever and use this parameter to skip lines, etc. Setting this parameter to 0 is the equivalent of setting it to <code>width * <a class="el" href="group___turbo_j_p_e_g.html#gad77cf8fe5b2bfd3cb3f53098146abb4c" title="Pixel size (in bytes) for a given pixel format.">tjPixelSize</a>[pixelFormat]</code>. </td></tr>
     <tr><td class="paramname">height</td><td>height (in pixels) of the source image </td></tr>
     <tr><td class="paramname">pixelFormat</td><td>pixel format of the source image (see <a class="el" href="group___turbo_j_p_e_g.html#gac916144e26c3817ac514e64ae5d12e2a">Pixel formats</a>.) </td></tr>
-    <tr><td class="paramname">dstBuf</td><td>pointer to an image buffer which will receive the YUV image. Use <a class="el" href="group___turbo_j_p_e_g.html#ga8e624b291053bf850b7409af9b2d7ac8" title="The size of the buffer (in bytes) required to hold a YUV planar image with the given parameters...">TJBUFSIZEYUV()</a> to determine the appropriate size for this buffer based on the image width, height, and level of chrominance subsampling. </td></tr>
+    <tr><td class="paramname">dstBuf</td><td>pointer to an image buffer that will receive the YUV image. Use <a class="el" href="group___turbo_j_p_e_g.html#ga9d0cb06fd5052d21b6f2b382db8b219c" title="The size of the buffer (in bytes) required to hold a YUV planar image with the given parameters...">tjBufSizeYUV()</a> to determine the appropriate size for this buffer based on the image width, height, and level of chrominance subsampling. </td></tr>
     <tr><td class="paramname">subsamp</td><td>the level of chrominance subsampling to be used when generating the YUV image (see <a class="el" href="group___turbo_j_p_e_g.html#ga1d047060ea80bb9820d540bb928e9074">Chrominance subsampling options</a>.) </td></tr>
     <tr><td class="paramname">flags</td><td>the bitwise OR of one or more of the <a class="el" href="group___turbo_j_p_e_g.html#ga72ecf4ebe6eb702d3c6f5ca27455e1ec">flags</a>.</td></tr>
   </table>
@@ -1358,10 +1421,10 @@ If you choose option 1, <code>*jpegSize</code> should be set to the size of your
     <tr><td class="paramname">dstBufs</td><td>pointer to an array of n image buffers. <code>dstBufs[i]</code> will receive a JPEG image that has been transformed using the parameters in <code>transforms[i]</code>. TurboJPEG has the ability to reallocate the JPEG buffer to accommodate the size of the JPEG image. Thus, you can choose to:<ol type="1">
 <li>pre-allocate the JPEG buffer with an arbitrary size using <a class="el" href="group___turbo_j_p_e_g.html#ga5c9234bda6d993cdaffdd89bf81a00ff" title="Allocate an image buffer for use with TurboJPEG.">tjAlloc()</a> and let TurboJPEG grow the buffer as needed,</li>
 <li>set <code>dstBufs[i]</code> to NULL to tell TurboJPEG to allocate the buffer for you, or</li>
-<li>pre-allocate the buffer to a "worst case" size determined by calling <a class="el" href="group___turbo_j_p_e_g.html#ga68f4761dc5213cb9653a2f6ce236716e" title="The maximum size of the buffer (in bytes) required to hold a JPEG image with the given parameters...">TJBUFSIZE()</a> with the cropped width and height. This should ensure that the buffer never has to be re-allocated (setting <a class="el" href="group___turbo_j_p_e_g.html#ga8808d403c68b62aaa58a4c1e58e98963" title="Disable buffer (re)allocation.">TJFLAG_NOREALLOC</a> guarantees this.)</li>
+<li>pre-allocate the buffer to a "worst case" size determined by calling <a class="el" href="group___turbo_j_p_e_g.html#gaccc5bca7f12fcdcc302e6e1c6d4b311b" title="The maximum size of the buffer (in bytes) required to hold a JPEG image with the given parameters...">tjBufSize()</a> with the cropped width and height. This should ensure that the buffer never has to be re-allocated (setting <a class="el" href="group___turbo_j_p_e_g.html#ga8808d403c68b62aaa58a4c1e58e98963" title="Disable buffer (re)allocation.">TJFLAG_NOREALLOC</a> guarantees this.)</li>
 </ol>
 If you choose option 1, <code>dstSizes[i]</code> should be set to the size of your pre-allocated buffer. In any case, unless you have set <a class="el" href="group___turbo_j_p_e_g.html#ga8808d403c68b62aaa58a4c1e58e98963" title="Disable buffer (re)allocation.">TJFLAG_NOREALLOC</a>, you should always check <code>dstBufs[i]</code> upon return from this function, as it may have changed. </td></tr>
-    <tr><td class="paramname">dstSizes</td><td>pointer to an array of n unsigned long variables which will receive the actual sizes (in bytes) of each transformed JPEG image. If <code>dstBufs[i]</code> points to a pre-allocated buffer, then <code>dstSizes[i]</code> should be set to the size of the buffer. Upon return, <code>dstSizes[i]</code> will contain the size of the JPEG image (in bytes.) </td></tr>
+    <tr><td class="paramname">dstSizes</td><td>pointer to an array of n unsigned long variables that will receive the actual sizes (in bytes) of each transformed JPEG image. If <code>dstBufs[i]</code> points to a pre-allocated buffer, then <code>dstSizes[i]</code> should be set to the size of the buffer. Upon return, <code>dstSizes[i]</code> will contain the size of the JPEG image (in bytes.) </td></tr>
     <tr><td class="paramname">transforms</td><td>pointer to an array of n tjtransform structures, each of which specifies the transform parameters and/or cropping region for the corresponding transformed output image. </td></tr>
     <tr><td class="paramname">flags</td><td>the bitwise OR of one or more of the <a class="el" href="group___turbo_j_p_e_g.html#ga72ecf4ebe6eb702d3c6f5ca27455e1ec">flags</a>.</td></tr>
   </table>
@@ -1494,7 +1557,7 @@ If you choose option 1, <code>dstSizes[i]</code> should be set to the size of yo
 </iframe>
 </div>
 
-<hr class="footer"/><address class="footer"><small>Generated on Tue May 24 2011 11:59:01 for TurboJPEG by&#160;
+<hr class="footer"/><address class="footer"><small>Generated on Sun Dec 18 2011 20:09:47 for TurboJPEG by&#160;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.7.4 </small></address>
 </body>

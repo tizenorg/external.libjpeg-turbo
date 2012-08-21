@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.56])
-AC_INIT([libjpeg-turbo], [1.1.90])
+AC_INIT([libjpeg-turbo], [1.2.0])
 BUILD=`date +%Y%m%d`
 
 AM_INIT_AUTOMAKE([-Wall foreign dist-bzip2])
@@ -140,6 +140,8 @@ AC_MSG_RESULT([$SO_MAJOR_VERSION:$SO_MINOR_VERSION])
 AC_SUBST(SO_MAJOR_VERSION)
 AC_SUBST(SO_MINOR_VERSION)
 
+AC_DEFINE_UNQUOTED(LIBJPEG_TURBO_VERSION, [$VERSION], [libjpeg-turbo version])
+
 VERSION_SCRIPT=yes
 AC_ARG_ENABLE([ld-version-script],
   AS_HELP_STRING([--disable-ld-version-script],
@@ -172,6 +174,20 @@ AC_MSG_RESULT($VERSION_SCRIPT)
 
 AM_CONDITIONAL(VERSION_SCRIPT, test "x$VERSION_SCRIPT" = "xyes")
 AC_SUBST(VERSION_SCRIPT_FLAG)
+
+# Check for non-broken inline under various spellings
+AC_MSG_CHECKING(for inline)
+ljt_cv_inline=""
+AC_TRY_COMPILE(, [} __attribute__((always_inline)) int foo() { return 0; }
+int bar() { return foo();], ljt_cv_inline="__attribute__((always_inline))",
+AC_TRY_COMPILE(, [} __inline__ int foo() { return 0; }
+int bar() { return foo();], ljt_cv_inline="__inline__",
+AC_TRY_COMPILE(, [} __inline int foo() { return 0; }
+int bar() { return foo();], ljt_cv_inline="__inline",
+AC_TRY_COMPILE(, [} inline int foo() { return 0; }
+int bar() { return foo();], ljt_cv_inline="inline"))))
+AC_MSG_RESULT($ljt_cv_inline)
+AC_DEFINE_UNQUOTED([INLINE],[$ljt_cv_inline],[How to obtain function inlining.])
 
 AC_MSG_CHECKING([whether to include arithmetic encoding support])
 AC_ARG_WITH([arith-enc],
@@ -346,14 +362,16 @@ AC_CONFIG_HEADERS([jconfig.h])
 AC_CONFIG_FILES([pkgscripts/libjpeg-turbo.spec:release/libjpeg-turbo.spec.in])
 AC_CONFIG_FILES([pkgscripts/makecygwinpkg:release/makecygwinpkg.in])
 AC_CONFIG_FILES([pkgscripts/makedpkg:release/makedpkg.in])
-AC_CONFIG_FILES([pkgscripts/deb-control:release/deb-control.in])
 AC_CONFIG_FILES([pkgscripts/makemacpkg:release/makemacpkg.in])
 AC_CONFIG_FILES([pkgscripts/Description.plist:release/Description.plist.in])
 AC_CONFIG_FILES([pkgscripts/Info.plist:release/Info.plist.in])
 AC_CONFIG_FILES([pkgscripts/uninstall:release/uninstall.in])
 AC_CONFIG_FILES([pkgscripts/makesunpkg:release/makesunpkg.in])
 AC_CONFIG_FILES([pkgscripts/pkginfo:release/pkginfo.in])
+AC_CONFIG_FILES([tjbenchtest])
+AC_CONFIG_FILES([tjexampletest])
 AC_CONFIG_FILES([libjpeg.map])
 AC_CONFIG_FILES([Makefile simd/Makefile])
 AC_CONFIG_FILES([java/Makefile])
+AC_CONFIG_FILES([pkgconfig/Makefile pkgconfig/turbojpeg.pc])
 AC_OUTPUT

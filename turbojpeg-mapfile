@@ -9,8 +9,6 @@ TURBOJPEG_1.0
 		tjDecompress;
 		tjDestroy;
 		tjGetErrorStr;
-	local:
-		*;
 };
 
 TURBOJPEG_1.1
@@ -26,6 +24,8 @@ TURBOJPEG_1.2
 {
 	global:
 		tjAlloc;
+		tjBufSize;
+		tjBufSizeYUV;
 		tjCompress2;
 		tjDecompress2;
 		tjEncodeYUV2;

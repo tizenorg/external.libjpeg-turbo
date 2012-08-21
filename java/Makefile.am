@@ -2,6 +2,7 @@ JAVAROOT = .
 
 JAVASOURCES = org/libjpegturbo/turbojpeg/TJ.java \
 	org/libjpegturbo/turbojpeg/TJCompressor.java \
+	org/libjpegturbo/turbojpeg/TJCustomFilter.java \
 	org/libjpegturbo/turbojpeg/TJDecompressor.java \
 	org/libjpegturbo/turbojpeg/TJLoader.java \
 	org/libjpegturbo/turbojpeg/TJScalingFactor.java \
@@ -21,6 +22,7 @@ dist_noinst_JAVA = ${JAVASOURCES}
 
 JAVA_CLASSES = org/libjpegturbo/turbojpeg/TJ.class \
 	org/libjpegturbo/turbojpeg/TJCompressor.class \
+	org/libjpegturbo/turbojpeg/TJCustomFilter.class \
 	org/libjpegturbo/turbojpeg/TJDecompressor.class \
 	org/libjpegturbo/turbojpeg/TJLoader.class \
 	org/libjpegturbo/turbojpeg/TJScalingFactor.class \
@@ -46,15 +48,14 @@ uninstall-local:
 	if [ -d $(DESTDIR)/$(prefix)/classes ]; then rmdir $(DESTDIR)/$(prefix)/classes; fi
 
 headers: all
-	cd ${srcdir}; \
-	javah org.libjpegturbo.turbojpeg.TJ; \
-	javah org.libjpegturbo.turbojpeg.TJCompressor; \
-	javah org.libjpegturbo.turbojpeg.TJDecompressor; \
-	javah org.libjpegturbo.turbojpeg.TJTransformer
+	javah -d ${srcdir} org.libjpegturbo.turbojpeg.TJ; \
+	javah -d ${srcdir} org.libjpegturbo.turbojpeg.TJCompressor; \
+	javah -d ${srcdir} org.libjpegturbo.turbojpeg.TJDecompressor; \
+	javah -d ${srcdir} org.libjpegturbo.turbojpeg.TJTransformer
 
 docs: all
-	cd ${srcdir}; \
-	mkdir -p doc; cd doc; javadoc -classpath .. org.libjpegturbo.turbojpeg
+	mkdir -p ${srcdir}/doc; \
+	javadoc -d ${srcdir}/doc -sourcepath ${srcdir} org.libjpegturbo.turbojpeg
 
 endif
 
