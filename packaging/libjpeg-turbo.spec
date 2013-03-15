@@ -47,7 +47,7 @@ make %{?_smp_mflags}
 %install
 %makeinstall
 mkdir -p %{buildroot}/usr/share/license
-cp debian/copyright %{buildroot}/usr/share/license/%{name}
+cp copyright %{buildroot}/usr/share/license/%{name}
 # Fix perms
 chmod -x README-turbo.txt release/copyright
 
