@@ -3,7 +3,7 @@ License:        BSD3c(or similar)
 Group:          Productivity/Graphics/Convertors
 AutoReqProv:    on
 Version: 	1.2.0
-Release:        6
+Release:        8
 Summary:        A MMX/SSE2 accelerated library for manipulating JPEG image files
 Url:            http://sourceforge.net/projects/libjpeg-turbo
 Source0:        %{name}-%{version}.tar.gz
@@ -19,7 +19,9 @@ Summary:        Developement files for libjpeg-turbo contains a wrapper library 
 Group:          Development/Libraries/C and C++
 Requires:       %{name} = %{version}-%{release}
 Provides: 	libjpeg-devel
-
+%ifarch i586
+BuildRequires:  nasm
+%endif
 %description devel
 The libjpeg-devel package includes the header files and documentation
 necessary for developing programs which will manipulate JPEG files using
@@ -34,11 +36,7 @@ package installed.
 
 %build
 autoreconf -fiv
-%ifarch %{arm}
 %configure --enable-shared --disable-static --with-jpeg8
-%else
-%configure --enable-shared --disable-static --with-jpeg8 --without-simd
-%endif
 make %{?_smp_mflags}
 
 #%check
@@ -64,10 +62,12 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(-,root,root)
 %{_libdir}/libturbojpeg.so
 %{_libdir}/libjpeg.so.*
+%{_bindir}/cjpeg
+%{_bindir}/djpeg
 %exclude %{_datadir}/man/man1/*
 %exclude %{_datadir}/doc/
-%exclude %{_bindir}/cjpeg
-%exclude %{_bindir}/djpeg
+#%exclude %{_bindir}/cjpeg
+#%exclude %{_bindir}/djpeg
 %exclude %{_bindir}/jpegtran
 %exclude %{_bindir}/rdjpgcom
 %exclude %{_bindir}/tjbench
