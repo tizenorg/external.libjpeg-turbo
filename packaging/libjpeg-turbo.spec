@@ -3,7 +3,7 @@ License:        BSD3c(or similar)
 Group:          Productivity/Graphics/Convertors
 AutoReqProv:    on
 Version: 	1.2.0
-Release:        8
+Release:        11
 Summary:        A MMX/SSE2 accelerated library for manipulating JPEG image files
 Url:            http://sourceforge.net/projects/libjpeg-turbo
 Source0:        %{name}-%{version}.tar.gz
@@ -45,7 +45,7 @@ make %{?_smp_mflags}
 %install
 %makeinstall
 mkdir -p %{buildroot}/usr/share/license
-cp debian/copyright %{buildroot}/usr/share/license/%{name}
+cp COPYING %{buildroot}/usr/share/license/%{name}
 # Fix perms
 chmod -x README-turbo.txt release/copyright
 
