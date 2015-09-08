@@ -1,10 +1,8 @@
 lib_LTLIBRARIES = libjpeg.la libturbojpeg.la
 libjpeg_la_LDFLAGS = -version-info ${SO_MAJOR_VERSION}:${SO_MINOR_VERSION} -no-undefined
 libturbojpeg_la_LDFLAGS = -avoid-version -no-undefined
-include_HEADERS = turbojpeg.h
-installheaderjpeglibdir = $(includedir)/turbojpeg
-installheaderjpeglib_HEADERS = jpeglib.h jerror.h jmorecfg.h jconfig.h
-#nodist_include_HEADERS = jconfig.h
+include_HEADERS = jerror.h jmorecfg.h jpeglib.h turbojpeg.h
+nodist_include_HEADERS = jconfig.h
 
 HDRS = jchuff.h jdct.h jdhuff.h jerror.h jinclude.h jmemsys.h jmorecfg.h \
 	jpegint.h jpeglib.h jversion.h jsimd.h jsimddct.h jpegcomp.h
@@ -17,7 +15,6 @@ libjpeg_la_SOURCES = $(HDRS) jcapimin.c jcapistd.c jccoefct.c jccolor.c \
 	jdmerge.c jdphuff.c jdpostct.c jdsample.c jdtrans.c jerror.c \
 	jfdctflt.c jfdctfst.c jfdctint.c jidctflt.c jidctfst.c jidctint.c \
 	jidctred.c jquant1.c jquant2.c jutils.c jmemmgr.c jmemnobs.c
-
 
 if WITH_ARITH
 
@@ -96,7 +93,8 @@ cjpeg_SOURCES = cdjpeg.h cderror.h cdjpeg.c cjpeg.c rdbmp.c rdgif.c \
 cjpeg_LDADD = libjpeg.la
 
 cjpeg_CFLAGS = -DBMP_SUPPORTED -DGIF_SUPPORTED -DPPM_SUPPORTED \
-	-DTARGA_SUPPORTED
+	-DTARGA_SUPPORTED \
+	-fPIE -pie
 
 djpeg_SOURCES = cdjpeg.h cderror.h cdjpeg.c djpeg.c rdcolmap.c rdswitch.c \
 	wrbmp.c wrgif.c wrppm.c wrtarga.c
@@ -104,7 +102,8 @@ djpeg_SOURCES = cdjpeg.h cderror.h cdjpeg.c djpeg.c rdcolmap.c rdswitch.c \
 djpeg_LDADD = libjpeg.la
 
 djpeg_CFLAGS = -DBMP_SUPPORTED -DGIF_SUPPORTED -DPPM_SUPPORTED \
-	-DTARGA_SUPPORTED
+	-DTARGA_SUPPORTED \
+        -fPIE -pie
 
 jpegtran_SOURCES = jpegtran.c rdswitch.c cdjpeg.c transupp.c transupp.h
 

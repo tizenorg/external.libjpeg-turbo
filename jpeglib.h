@@ -491,6 +491,8 @@ struct jpeg_decompress_struct {
 
   unsigned int scale_num, scale_denom; /* fraction by which to scale image */
 
+  unsigned int region_x, region_y, region_w, region_h; /* if region_w && region_h > 0, then use this region to decode. scale above is done prior to region select */
+
   double output_gamma;		/* image gamma wanted in output */
 
   boolean buffered_image;	/* TRUE=multiple output passes */

@@ -248,6 +248,7 @@ merged_2v_upsample (j_decompress_ptr cinfo,
   my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
   JSAMPROW work_ptrs[2];
   JDIMENSION num_rows;		/* number of rows returned to caller */
+  int skip = 0;
 
   if (upsample->spare_full) {
     /* If we have a spare row saved from a previous cycle, just return it. */
@@ -256,6 +257,13 @@ merged_2v_upsample (j_decompress_ptr cinfo,
     num_rows = 1;
     upsample->spare_full = FALSE;
   } else {
+    int _region_y = (int)cinfo->region_y;
+    _region_y = (_region_y>>1)<<1;
+    if ((cinfo->region_w > 0) && (cinfo->region_h > 0)) {
+       if (((int)cinfo->output_scanline < _region_y) ||
+           ((int)cinfo->output_scanline >= (_region_y + (int)cinfo->region_h)))
+         skip = 1;
+    }
     /* Figure number of rows to return to caller. */
     num_rows = 2;
     /* Not more than the distance to the end of the image. */
@@ -274,7 +282,8 @@ merged_2v_upsample (j_decompress_ptr cinfo,
       upsample->spare_full = TRUE;
     }
     /* Now do the upsampling. */
-    (*upsample->upmethod) (cinfo, input_buf, *in_row_group_ctr, work_ptrs);
+    if (!skip)
+      (*upsample->upmethod) (cinfo, input_buf, *in_row_group_ctr, work_ptrs);
   }
 
   /* Adjust counts */

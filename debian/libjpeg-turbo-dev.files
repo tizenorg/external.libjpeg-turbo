@@ -1,8 +1,2 @@
-usr/include/turbojpeg.h
-usr/include/turbojpeg/jpeglib.h
-usr/include/turbojpeg/jerror.h
-usr/include/turbojpeg/jmorecfg.h
-usr/include/turbojpeg/jconfig.h
+usr/include/*.h
 usr/lib/pkgconfig/*
-usr/lib/libturbojpeg.a
-usr/lib/libturbojpeg.la

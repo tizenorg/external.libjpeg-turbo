@@ -78,6 +78,18 @@ jpeg_CreateDecompress (j_decompress_ptr cinfo, int version, size_t structsize)
   /* And initialize the overall input controller. */
   jinit_input_controller(cinfo);
 
+  /* Init region to decode to be empty */
+  cinfo->region_x = 0;
+  cinfo->region_y = 0;
+  cinfo->region_w = 0;
+  cinfo->region_h = 0;
+
+  /* Init region to decode to be empty */
+  cinfo->region_x = 0;
+  cinfo->region_y = 0;
+  cinfo->region_w = 0;
+  cinfo->region_h = 0;
+
   /* OK, I'm ready */
   cinfo->global_state = DSTATE_START;
 }

@@ -1,7 +1,7 @@
 prefix=/usr
 exec_prefix=${prefix}
 libdir=${exec_prefix}/lib
-includedir=${prefix}/include/turbojpeg
+includedir=${prefix}/include
 
 Name: libturbojpeg
 Description: Loads and saves jpeg
